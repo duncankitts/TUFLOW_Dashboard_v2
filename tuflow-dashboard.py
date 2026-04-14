@@ -2,7 +2,7 @@
 /***************************************************************************
 Generate a Local TUFLOW Dashboard using Dash
                              -------------------
-        begin                : 2021-06-14
+        begin                : 2021-04-13
         copyright            : (C) 2021 by Duncan Kitts
  ***************************************************************************/
 
@@ -58,7 +58,7 @@ app.layout = html.Div([
             'margin': '10px'
         },
         # Allow multiple files to be uploaded
-        multiple=True
+        multiple=True #False #True
     ),
     dcc.Graph(id='Mygraph', config=dict({
         'scrollZoom': True,
@@ -1405,11 +1405,13 @@ def update_graph(contents, filename):
             # Set up figure
             runname = filename[:-18]
             fig = go.Figure(
-                data=go.Scatter(x=df['Time'], y=df[df.columns[0]], mode='lines', marker_color='rgb(000,085,129)'))
+                data=go.Scatter(x=df['Time'], y=df[df.columns[1]], mode='lines', marker_color='rgb(000,085,129)'))
 
             buttons = []
 
             for col in df.columns:
+                if col == 'Time':
+                    continue  # Ignore Time Column
                 buttons.append(dict(method='restyle', label=col, visible=True,
                                     args=[{'y': [df[col]]}]))
 
@@ -1423,16 +1425,18 @@ def update_graph(contents, filename):
                     name='Node',
                     direction='down',
                 )],
-                template="plotly_white")
+                template="plotly_white",yaxis_title="Volume (m<sup>3</sup>)",xaxis_title="Simulation Time")
         elif filename.endswith('2D_Q_to_x1D.csv'):
             # Set up figure
             runname = filename[:-16]
             fig = go.Figure(
-                data=go.Scatter(x=df['Time'], y=df[df.columns[0]], mode='lines', marker_color='rgb(000,085,129)'))
+                data=go.Scatter(x=df['Time'], y=df[df.columns[1]], mode='lines', marker_color='rgb(000,085,129)'))
 
             buttons = []
 
             for col in df.columns:
+                if col == 'Time':
+                    continue  # Ignore Time Column
                 buttons.append(dict(method='restyle', label=col, visible=True,
                                     args=[{'y': [df[col]]}]))
 
@@ -1446,16 +1450,20 @@ def update_graph(contents, filename):
                     name='Node',
                     direction='down',
                 )],
-                template="plotly_white")
+                template="plotly_white",
+                yaxis_title="Volume (m<sup>3</sup>)",
+                xaxis_title="Simulation Time")
         elif filename.endswith('x1D_H_to_2D.csv'):
             # Set up figure
             runname = filename[:-16]
             fig = go.Figure(
-                data=go.Scatter(x=df['Time'], y=df[df.columns[0]], mode='lines', marker_color='rgb(000,085,129)'))
+                data=go.Scatter(x=df['Time'], y=df[df.columns[1]], mode='lines', marker_color='rgb(000,085,129)'))
 
             buttons = []
 
             for col in df.columns:
+                if col == 'Time':
+                    continue  # Ignore Time Column
                 buttons.append(dict(method='restyle', label=col, visible=True,
                                     args=[{'y': [df[col]]}]))
 
@@ -1469,16 +1477,18 @@ def update_graph(contents, filename):
                     name='Node',
                     direction='down',
                 )],
-                template="plotly_white")
+                template="plotly_white",yaxis_title="Water Level (m AD)",xaxis_title="Simulation Time")
         elif filename.endswith('x1D_H_from_2D.csv'):
             # Set up figure
             runname = filename[:-18]
             fig = go.Figure(
-                data=go.Scatter(x=df['Time'], y=df[df.columns[0]], mode='lines', marker_color='rgb(000,085,129)'))
+                data=go.Scatter(x=df['Time'], y=df[df.columns[1]], mode='lines', marker_color='rgb(000,085,129)'))
 
             buttons = []
 
             for col in df.columns:
+                if col == 'Time':
+                    continue  # Ignore Time Column
                 buttons.append(dict(method='restyle', label=col, visible=True,
                                     args=[{'y': [df[col]]}]))
 
@@ -1492,12 +1502,49 @@ def update_graph(contents, filename):
                     name='Node',
                     direction='down',
                 )],
-                template="plotly_white")
+                template="plotly_white", yaxis_title="Water Level (m AD)", xaxis_title="Simulation Time")
+        elif filename.endswith('PO.csv'):
+        # Set up figure
+            runname = filename[:-7]
+
+            # Remove first row (metadata / units row)
+            df.columns = df.iloc[0]
+            df = df.iloc[1:].reset_index(drop=True)
+            df = df.iloc[:, 1:].reset_index(drop=True)
+
+            y_cols = df.columns  # Ignore first column in dropdow
+
+            fig = go.Figure(
+                data=go.Scatter(x=df['Time'], y=df[df.columns[1]], mode='lines', marker_color='rgb(000,085,129)'))
+
+            buttons = []
+
+            for col in df.columns:
+                if col == 'Time':
+                    continue  # Ignore Time Column
+                buttons.append(dict(method='restyle', label=col, visible=True,
+                                    args=[{'y': [df[col]]}]))
+
+            fig.update_layout(
+                title={
+                    'text': 'PO Outputs ' + runname,
+                    'y': 0.95,
+                    'x': 0.5
+                }, updatemenus=[dict(
+                    buttons=buttons,
+                    name='Node',
+                    direction='down',
+                )],
+                template="plotly_white", yaxis_title="Output", xaxis_title="Simulation Time")
 
     return fig
 
-
-# TODO: Tidy clours and plots for MB.CSV, MB2D.csv, MB_HPC.csv and MB1D.csv
-
 if __name__ == '__main__':
     app.run(debug=True)
+    # app.run(
+    #     debug=False,
+    #     use_reloader=False,
+    #     host="127.0.0.1",
+    #     port=8060
+    # )
+
