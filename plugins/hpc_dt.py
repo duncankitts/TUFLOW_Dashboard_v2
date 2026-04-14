@@ -62,7 +62,7 @@ class HPCDTPlugin(TuflowPlugin):
 
         fig.add_hrect(
             y0=1,
-            y1=1.0,
+            y1=1.2,
             yref='paper',
             fillcolor="red",
             opacity=0.1,
@@ -83,7 +83,7 @@ class HPCDTPlugin(TuflowPlugin):
 
         fig.add_hrect(
             y0=1,
-            y1=1.0,
+            y1=1.2,
             yref='paper',
             fillcolor="red",
             opacity=0.1,

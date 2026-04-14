@@ -22,7 +22,7 @@ app.layout = html.Div([
 
     dcc.Upload(
         id="upload",
-        children=html.Div(['Drag and Drop *.TSF, *MB.csv or *.hpc.dt.csv files to here or ',
+        children=html.Div(['Drag and Drop *.TSF, *MB.csv, *PO.csv, *.hpc.dt.csv or external X1D Check files to here or ',
             html.A('Select File')]),
         multiple=True,
         style={
