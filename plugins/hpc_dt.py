@@ -25,16 +25,16 @@ class HPCDTPlugin(TuflowPlugin):
             fig = make_subplots(
                 rows=3, cols=2,
                 subplot_titles=(
-                    "Target Timestep", "Timestep", "Courant Number (Nu)", "Celerity Number (Nc)",
-                    "Diffusion Number (Nd)",
-                    "Efficiency"), shared_xaxes='all', x_title='Hours of Simulation')
+                    "<b>Target Timestep</b>", "<b>Timestep</b>", "<b>Courant Number (Nu)</b>", "<b>Celerity Number (Nc)</b>",
+                    "<b>Diffusion Number (Nd)</b>",
+                    "<b>Efficiency</b>"), shared_xaxes='all', x_title='<b>Hours of Simulation</b>')
         else:
             fig = make_subplots(
                 rows=3, cols=2,
                 subplot_titles=(
-                    "Target Timestep", "Timestep", "Courant Number (Nu)",
-                    "Celerity Number(Nc)", "Diffusion Number(Nd)"),
-                shared_xaxes='all', x_title='Hours of Simulation')
+                    "<b>Target Timestep</b>", "<b>Timestep</b>", "<b>Courant Number (Nu)</b>",
+                    "<b>Celerity Number(Nc)</b>", "<b>Diffusion Number(Nd)</b>"),
+                shared_xaxes='all', x_title='<b>Hours of Simulation</b>')
 
         # Adds traces
         # plot one
@@ -118,12 +118,12 @@ class HPCDTPlugin(TuflowPlugin):
                 row=3, col=2)
 
         # Update yaxis properties
-        fig.update_yaxes(row=1, col=1, title_text="Target Timestep (s)")
-        fig.update_yaxes(row=1, col=2, title_text="Timestep (s)")
-        fig.update_yaxes(range=[0, 1.2], row=2, col=1, title_text="Nu")
-        fig.update_yaxes(range=[0, 1.2], row=2, col=2, title_text="Nc")
-        fig.update_yaxes(range=[0, 0.5], row=3, col=1, title_text="Nd")
-        fig.update_yaxes(row=3, col=2, title_text="Timestep Efficiency")
+        fig.update_yaxes(row=1, col=1, title_text="<b>Target Timestep (s)</b>")
+        fig.update_yaxes(row=1, col=2, title_text="<b>Timestep (s)</b>")
+        fig.update_yaxes(range=[0, 1.2], row=2, col=1, title_text="<b>Nu</b>")
+        fig.update_yaxes(range=[0, 1.2], row=2, col=2, title_text="<b>Nc</b>")
+        fig.update_yaxes(range=[0, 0.5], row=3, col=1, title_text="<b>Nd</b>")
+        fig.update_yaxes(row=3, col=2, title_text="<b>Timestep Efficiency</b>")
 
         runname = filename[:-11]
         fig.update_layout(template="plotly_white", title_text="<b>TUFLOW HPC Summary Graphs for <b>" + runname,

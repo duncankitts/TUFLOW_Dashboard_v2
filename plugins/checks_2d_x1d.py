@@ -81,9 +81,9 @@ class Checks2DX1DPlugin(TuflowPlugin):
 
         # Axis titles depend on file type
         if "Q_" in filename:
-            y_title = "Flow (m³/s)"
+            y_title = "<b>Flow (m³/s)</b>"
         else:
-            y_title = "Water Level (m)"
+            y_title = "<b>Water Level (m)</b>"
 
         fig.update_layout(
             updatemenus=[
@@ -95,7 +95,7 @@ class Checks2DX1DPlugin(TuflowPlugin):
                     y=1,
                 )
             ],
-            xaxis_title="Simulation Time",
+            xaxis_title="<b>Simulation Time</b>",
             yaxis_title=y_title,
         )
 

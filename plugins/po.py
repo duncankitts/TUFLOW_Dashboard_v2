@@ -4,6 +4,7 @@ from core.parsing import parse_csv
 from core.layout import finalise_dashboard
 import pandas as pd
 import re
+import numpy as np
 
 import io
 import pandas as pd
@@ -66,7 +67,8 @@ class POPlugin(TuflowPlugin):
         df = df.iloc[:, 1:].reset_index(drop=True)
 
         # Treat -99999 as no-data
-        df = df.replace(-99999, pd.NA)
+        df = df.astype(float, errors="ignore")
+        df.replace(-99999, np.nan, inplace=True)
 
         # Force numerics
         for c in df.columns:
@@ -112,10 +114,13 @@ class POPlugin(TuflowPlugin):
                 mode="lines",
                 name=first_col,
                 marker_color=COLOURS["blue_main"],
+                hovertemplate=(
+                    "Time: %{x}<br>"
+                    "Value: %{y}<br>")
             )
         )
 
-        fig.update_yaxes(title_text=yaxis_title_for_column(first_col))
+        fig.update_yaxes(title_text=f"<b>{yaxis_title_for_column(first_col)}</b>")
 
         buttons = []
         for col_idx, col_name in data_cols:
@@ -128,8 +133,8 @@ class POPlugin(TuflowPlugin):
                         # Update the trace data
                         {"y": [df.iloc[:, col_idx]]},
 
-                        # FORCE y-axis title update (THIS IS IMPORTANT)
-                        {"yaxis.title.text": yaxis_title_for_column(col_name)},
+                        # FORCE y-axis title update
+                        {"yaxis.title.text": f"<b>{yaxis_title_for_column(col_name)}</b>"},
                     ],
 
                 )
@@ -144,7 +149,7 @@ class POPlugin(TuflowPlugin):
                 y=1,
                 yanchor="top",
             )],
-            xaxis_title="Simulation Time",
+            xaxis_title="<b>Simulation Time</b>",
             showlegend=True,
         )
 

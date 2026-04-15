@@ -45,8 +45,6 @@ class OnedMBPlugin(TuflowPlugin):
         df.columns = df.iloc[0]
         df = df.iloc[1:].reset_index(drop=True)
 
-        print(df.head())
-
         return df
 
     # ------------------------------------------------------------
@@ -57,7 +55,9 @@ class OnedMBPlugin(TuflowPlugin):
 
 
         fig = go.Figure(
-            data=go.Scatter(x=df['Time'], y=df[df.columns[1]], mode='lines', marker_color='rgb(000,085,129)'))
+            data=go.Scatter(x=df['Time'], y=df[df.columns[1]], mode='lines', marker_color='rgb(000,085,129)', hovertemplate=(
+                    "Time: %{x}<br>"
+                    "Value: %{y}<br>")))
 
         time_col = "Time"
 
@@ -77,17 +77,21 @@ class OnedMBPlugin(TuflowPlugin):
 
         fig.update_layout(
             title={
-                'text': '1D Mass Balance ' + runname,
+                'text': "f</b>1D Mass Balance ' + {runname}</b>",
                 'y': 0.95,
                 'x': 0.5
             }, updatemenus=[dict(
                 buttons=buttons,
                 name='Node',
+                x=1.02,
+                y=1,
                 direction='down',
+                xanchor="right",
+                yanchor="top",
             )],
             template="plotly_white")
-        fig.update_yaxes(title_text="Volume (m<sup>3</sup>)")
-        fig.update_xaxes(title_text="Simulation Time (Hrs)")
+        fig.update_yaxes(title_text="<b>Volume (m<sup>3</sup>)</b>")
+        fig.update_xaxes(title_text="<b>Simulation Time (Hrs)</b>")
 
         return finalise_dashboard(
             fig,

@@ -47,11 +47,11 @@ class MBPlugin(TuflowPlugin):
         fig = make_subplots(
                 rows=2, cols=3,
                 subplot_titles=(
-                    "H Volume", "Q Volume", "Total Volume",
-                    "Volume Err", "Q ME(%)", "Cum Volumes"),
+                    "<b>H Volume</b>", "<b>Q Volume</b>", "<b>Total Volume</b>",
+                    "<b>Volume Err</b>", "<b>Q ME(%)</b>", "<b>Cum Volumes</b>"),
                 specs=[[{}, {}, {'secondary_y': True}],
                        [{'secondary_y': True}, {}, {'secondary_y': True}]],
-                shared_xaxes='all', x_title='Hours of Simulation')
+                shared_xaxes='all', x_title='<b>Hours of Simulation</b>')
         # plot one: H Volumes
         fig.add_trace(
             go.Scattergl(x=df['Time (h)    '], y=df['H Vol In    '],
@@ -192,14 +192,14 @@ class MBPlugin(TuflowPlugin):
             row=2, col=3)
 
         # Update yaxis properties
-        fig.update_yaxes(row=1, col=1, title_text="Volume (m<sup>3</sup>)")
-        fig.update_yaxes(row=1, col=2, title_text="Volume (m<sup>3</sup>)")
-        fig.update_yaxes(row=1, col=3, title_text="Volume (m<sup>3</sup>)")
-        fig.update_yaxes(row=2, col=1, title_text="Volume (m<sup>3</sup>)")
-        fig.update_yaxes(row=2, col=1, title_text="Volume Error(m<sup>3</sup>)", secondary_y=True)
-        fig.update_yaxes(row=2, col=2, title_text="Error %")
-        fig.update_yaxes(row=2, col=3, title_text="Volume (m<sup>3</sup>)")
-        fig.update_yaxes(row=2, col=3, title_text="Volume Error(m<sup>3</sup>)", secondary_y=True)
+        fig.update_yaxes(row=1, col=1, title_text="<b>Volume (m<sup>3</sup>)</b>")
+        fig.update_yaxes(row=1, col=2, title_text="<b>Volume (m<sup>3</sup>)</b>")
+        fig.update_yaxes(row=1, col=3, title_text="<b>Volume (m<sup>3</sup>)</b>")
+        fig.update_yaxes(row=2, col=1, title_text="<b>Volume (m<sup>3</sup>)</b>")
+        fig.update_yaxes(row=2, col=1, title_text="<b>Volume Error(m<sup>3</sup>)</b>", secondary_y=True)
+        fig.update_yaxes(row=2, col=2, title_text="<b>Error %</b>")
+        fig.update_yaxes(row=2, col=3, title_text="<b>Volume (m<sup>3</sup>)</b>")
+        fig.update_yaxes(row=2, col=3, title_text="<b>Volume Error(m<sup>3</sup>)</b>", secondary_y=True)
 
         runname = filename[:-7]
         fig.update_layout(template="plotly_white", title_text="<b>TUFLOW MB Summary Graphs for <b>" + runname,
