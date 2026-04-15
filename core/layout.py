@@ -5,30 +5,31 @@ def finalise_dashboard(fig, title):
         template="plotly_white",
         title=dict(text=title, x=0.5),
         title_font_size=22,
-        height=950,
+        #height=650,
         margin=dict(l=40, r=25, t=80, b=80),
         legend=dict(
             orientation="h",     # horizontal legend
             x=0.5,               # centered
             xanchor="center",
-            y=-0.2,              # below the plot area
+            y=-0.2,
             yanchor="top")
     )
-    return fig
 
-    if logo:
-        fig.add_layout_image(
-            dict(
-                source=app.get_asset_url("Logo.jpg"),
-                xref="paper",
-                yref="paper",
-                x=1,
-                y=1.0,
-                sizex=0.18,
-                sizey=0.18,
-                xanchor="right",
-                yanchor="bottom",
-            )
+    # Add watermark to pages
+    fig.add_layout_image(
+        dict(
+            source="../assets/Logo.jpg",
+            xref="paper",
+            yref="paper",
+            x=0.5,
+            y=0.5,
+            sizex=0.18,
+            sizey=0.18,
+            xanchor="right",
+            yanchor="bottom",
+            opacity=0.05
         )
+    )
 
     return fig
+

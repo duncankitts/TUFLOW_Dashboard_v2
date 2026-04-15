@@ -150,7 +150,7 @@ class POPlugin(TuflowPlugin):
                 yanchor="top",
             )],
             xaxis_title="<b>Simulation Time</b>",
-            showlegend=True,
+            showlegend=True, height=650
         )
 
         return finalise_dashboard(

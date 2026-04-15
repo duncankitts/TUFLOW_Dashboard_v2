@@ -97,6 +97,7 @@ class Checks2DX1DPlugin(TuflowPlugin):
             ],
             xaxis_title="<b>Simulation Time</b>",
             yaxis_title=y_title,
+            height = 650
         )
 
         fig = finalise_dashboard(

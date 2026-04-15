@@ -203,7 +203,7 @@ class MBPlugin(TuflowPlugin):
 
         runname = filename[:-7]
         fig.update_layout(template="plotly_white", title_text="<b>TUFLOW MB Summary Graphs for <b>" + runname,
-                          title_font_size=24)
+                          height = 650, title_font_size=24)
 
         # ------------------------------------------------------------------
         # Final formatting

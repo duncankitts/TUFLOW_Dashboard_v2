@@ -208,7 +208,7 @@ class MBHPCPlugin(TuflowPlugin):
 
         runname = filename[:-11]
         fig.update_layout(template="plotly_white", title_text="<b>TUFLOW HPC_MB Summary Graphs for <b>" + runname,
-                          title_font_size=24)
+                          height = 650, title_font_size=24)
 
 
         # --------------------------------------------------------------

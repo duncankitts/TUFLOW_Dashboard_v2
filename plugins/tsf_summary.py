@@ -400,6 +400,7 @@ class TSFSummaryPlugin(TuflowPlugin):
             'x': 0.5,
             'xanchor': 'center',
             'yanchor': 'top'},
+            height=800,
             title_font_size=24,
             legend=dict(
                 yanchor="top",

@@ -40,16 +40,25 @@ class HPCDTPlugin(TuflowPlugin):
         # plot one
         fig.add_trace(
             go.Scattergl(x=df['tEnd'] / 3600, y=df['dtStar'],
-                         name='Target Timestep', marker_color='#D5E9EB'),
+                         name='Target Timestep', marker_color='#D5E9EB', hovertemplate=(
+                             "Time: %{x}<br>"
+                             "Value: %{y}<br>"
+                             "Desired timestep from the 2D component of the model.")),
             row=1, col=1)
         # plot two
         fig.add_trace(go.Scattergl(x=df['tEnd'] / 3600, y=df['dt'],
-                                   name='Timestep', marker_color='#D5E9EB'),
+                                   name='Timestep', marker_color='#D5E9EB', hovertemplate=(
+                             "Time: %{x}<br>"
+                             "Value: %{y}<br>"
+                             "Actual timestep, can be affected by the 1D timestep and output frequency.")),
                       row=1, col=2)
         # plot three
         fig.add_trace(
             go.Scattergl(x=df['tEnd'] / 3600, y=df['Nu'],
-                         name='Courant Number (Nu)', marker_color='#36B2BE'),
+                         name='Courant Number (Nu)', marker_color='#36B2BE', hovertemplate=(
+                             "Time: %{x}<br>"
+                             "Value: %{y}<br>"
+                             "The Courant number relates to velocity relative to the cell size. Higher velocities will trigger this as the timestep control.")),
             row=2, col=1)
 
         fig.add_hrect(
@@ -70,7 +79,10 @@ class HPCDTPlugin(TuflowPlugin):
         # plot four
         fig.add_trace(
             go.Scattergl(x=df['tEnd'] / 3600, y=df['Nc'],
-                         name='Celerity Number (Nc)', marker_color='#36B2BE'),
+                         name='Celerity Number (Nc)', marker_color='#36B2BE',hovertemplate=(
+                             "Time: %{x}<br>"
+                             "Value: %{y}<br>"
+                             "The Celerity Control number relates to water depth relative to cell size. Energy can pass through deeper water faster than shallow water, as such deep water will trigger this control.")),
             row=2, col=2)
 
         fig.add_hrect(
@@ -92,7 +104,10 @@ class HPCDTPlugin(TuflowPlugin):
         # plot five
         fig.add_trace(
             go.Scattergl(x=df['tEnd'] / 3600, y=df['Nd'],
-                         name='Diffusion Number (Nd)', marker_color='#325A7E'),
+                         name='Diffusion Number (Nd)', marker_color='#325A7E',hovertemplate=(
+                             "Time: %{x}<br>"
+                             "Value: %{y}<br>"
+                             "The diffusion control relates diffusion of momentum relating to the sub grid viscosity. Small cells subject to deep water will trigger this control.")),
             row=3, col=1)
         fig.add_hrect(
             y0=0,
@@ -114,7 +129,10 @@ class HPCDTPlugin(TuflowPlugin):
         if 'Eff' in df.columns:
             fig.add_trace(
                 go.Scattergl(x=df['tEnd'] / 3600, y=df['Eff'],
-                             name='Timestep Efficiency', marker_color='#325A7E'),
+                             name='Timestep Efficiency', marker_color='#325A7E', hovertemplate=(
+                             "Time: %{x}<br>"
+                             "Value: %{y}<br>"
+                             "Efficiency value that represents the ratio of actual 2D timestep (dt) to possible 2D timestep (dtStar).")),
                 row=3, col=2)
 
         # Update yaxis properties
@@ -127,7 +145,7 @@ class HPCDTPlugin(TuflowPlugin):
 
         runname = filename[:-11]
         fig.update_layout(template="plotly_white", title_text="<b>TUFLOW HPC Summary Graphs for <b>" + runname,
-                    showlegend=False, title_font_size=24)
+                    showlegend=False, title_font_size=24, height = 650)
                     
         # ------------------------------------------------------------------
         # Final formatting

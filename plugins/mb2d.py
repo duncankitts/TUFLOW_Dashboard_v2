@@ -244,7 +244,7 @@ class MB2DPlugin(TuflowPlugin):
         fig.update_yaxes(row=2, col=3, title_text="<b>Volume Error(m<sup>3</sup>)</b>", secondary_y=True)
 
         fig.update_layout(template="plotly_white", title_text="<b>TUFLOW MB2D Summary Graphs for <b>" + runname,
-                          title_font_size=24)
+                          height = 650, title_font_size=24)
 
 
         # --------------------------------------------------------------

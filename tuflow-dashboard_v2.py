@@ -22,7 +22,7 @@ app.layout = html.Div([
 
     dcc.Upload(
         id="upload",
-        children=html.Div(['Drag and Drop *.TSF, *MB.csv, *PO.csv, *.hpc.dt.csv or external X1D Check files to here or ',
+        children=html.Div(['Drag and Drop *.TSF, *.TLF, *MB.csv, *PO.csv, *.hpc.dt.csv or external X1D Check files to here or ',
             html.A('Select File')]),
         multiple=True,
         style={
@@ -36,7 +36,13 @@ app.layout = html.Div([
         },
     ),
 
-    dcc.Graph(id="graph"),
+    dcc.Graph(id="graph", config=dict({
+    'scrollZoom': True,"displaylogo": False,
+    'toImageButtonOptions': {
+        'format': 'svg',  # one of png, svg, jpeg, webp
+        'filename': 'TUFLOW Dashboard Output',
+    },
+})),
     html.Div(id="error", style={"color": "red", "marginTop": "10px"})
 ])
 
@@ -78,3 +84,6 @@ def update(contents, filename):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+    # TODO Tidy up code.
+    # TODO.  Add tooltips with help.

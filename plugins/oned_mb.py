@@ -88,7 +88,7 @@ class OnedMBPlugin(TuflowPlugin):
                 direction='down',
                 xanchor="right",
                 yanchor="top",
-            )],
+            )],height = 650,
             template="plotly_white")
         fig.update_yaxes(title_text="<b>Volume (m<sup>3</sup>)</b>")
         fig.update_xaxes(title_text="<b>Simulation Time (Hrs)</b>")
