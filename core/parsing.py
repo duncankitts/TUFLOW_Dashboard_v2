@@ -5,7 +5,7 @@ import pandas as pd
 
 def decode_upload(contents: str) -> bytes:
     if not contents or ',' not in contents:
-        raise ValueError("Invalid upload payload")
+        raise ValueError("Invalid upload")
 
     _, content_string = contents.split(',', 1)
     return base64.b64decode(content_string)

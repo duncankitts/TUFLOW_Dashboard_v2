@@ -9,7 +9,7 @@ from plugins.checks_2d_x1d import Checks2DX1DPlugin
 from plugins.tsf_summary import TSFSummaryPlugin
 from plugins.tlf_defaults import TLFSummaryPlugin
 
-
+# Add any additional plugins here (after importing them above)
 PLUGINS = [
     OnedMBPlugin(),
     HPCDTPlugin(),
@@ -22,8 +22,6 @@ PLUGINS = [
     TSFSummaryPlugin(),
     TLFSummaryPlugin()
 ]
-
-
 
 def find_plugin(filename: str):
     filename = filename.lower().strip()

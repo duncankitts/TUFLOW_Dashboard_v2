@@ -39,7 +39,7 @@ class OnedMBPlugin(TuflowPlugin):
         df = df.iloc[4:].reset_index(drop=True)
         # Drop first column (paths)
         df = df.iloc[:, 1:].reset_index(drop=True)
-        # Rename first remaining column to Time
+        # Rename first remaining column to Time.  Probably not really needed
         df = df.rename(columns={df.columns[0]: "Time"})
 
         df.columns = df.iloc[0]

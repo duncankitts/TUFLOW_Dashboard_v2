@@ -32,7 +32,7 @@ class POPlugin(TuflowPlugin):
     # ------------------------------------------------------------
     def parse(self, contents: bytes) -> pd.DataFrame:
 
-        # ✅ MUST be read this way
+        # Read in CSV
         df = pd.read_csv(
             io.StringIO(contents.decode("utf-8")),
             header=None,
@@ -47,7 +47,7 @@ class POPlugin(TuflowPlugin):
         # Line 1: descriptive headers
         hdr_desc = df.iloc[0].astype(str).str.strip()
 
-        # Line 2: names (Time, Bridge, Bridge, Bridge)
+        # Line 2: names
         hdr_name = df.iloc[1].astype(str).str.strip()
 
         # ---------- build column names ----------
@@ -85,6 +85,7 @@ class POPlugin(TuflowPlugin):
         time_col = "Time"
         runname = filename.replace("_PO.csv", "")
 
+        # Attempt to dynamically set Y axis title based on PO header information for each trace.  Need to work on regions and GW outputs (are there others?).
         def yaxis_title_for_column(col: str) -> str:
             c = col.lower()
             if "level" in c:
@@ -133,7 +134,7 @@ class POPlugin(TuflowPlugin):
                         # Update the trace data
                         {"y": [df.iloc[:, col_idx]]},
 
-                        # FORCE y-axis title update
+                        # Y-axis title update
                         {"yaxis.title.text": f"<b>{yaxis_title_for_column(col_name)}</b>"},
                     ],
 

@@ -97,7 +97,7 @@ class TLFSummaryPlugin(TuflowPlugin):
             values.append(value)
             defaults.append(default)
 
-            # Highlight entire row if value != default
+            # Highlight entire row if value is not default
             if value.strip().casefold() != default.strip().casefold():
                 row_colours.append("rgb(226,001,119)")  # light red
             else:
