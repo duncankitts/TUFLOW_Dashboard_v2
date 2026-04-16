@@ -86,4 +86,6 @@ if __name__ == "__main__":
     app.run(debug=True)
 
     # TODO Tidy up code.
-    # TODO.  Add tooltips with help.
+    # Add tooltips with help.
+    # Add support for simulations_log.txt
+    # Add support for a table of messages.csv

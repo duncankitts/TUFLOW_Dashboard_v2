@@ -8,6 +8,8 @@ from plugins.po import POPlugin
 from plugins.checks_2d_x1d import Checks2DX1DPlugin
 from plugins.tsf_summary import TSFSummaryPlugin
 from plugins.tlf_defaults import TLFSummaryPlugin
+from plugins.run_stats import RunStats
+from plugins.start_stats import StartStats
 
 # Add any additional plugins here (after importing them above)
 PLUGINS = [
@@ -20,7 +22,9 @@ PLUGINS = [
     POPlugin(),
     Checks2DX1DPlugin(),
     TSFSummaryPlugin(),
-    TLFSummaryPlugin()
+    TLFSummaryPlugin(),
+    RunStats(),
+    StartStats()
 ]
 
 def find_plugin(filename: str):
