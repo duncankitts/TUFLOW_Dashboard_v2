@@ -39,7 +39,7 @@ app.layout = html.Div([
     dcc.Graph(id="graph", config=dict({
         'scrollZoom': True, "displaylogo": False,
         'toImageButtonOptions': {
-            'format': 'svg',  # one of png, svg, jpeg, webp
+            'format': 'png', #'svg',  # one of png, svg, jpeg, webp
             'filename': 'TUFLOW Dashboard Output',
         },
     })),
