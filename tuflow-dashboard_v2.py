@@ -22,8 +22,9 @@ app.layout = html.Div([
 
     dcc.Upload(
         id="upload",
-        children=html.Div(['Drag and Drop *.TSF, *.TLF, *MB.csv, *PO.csv, *.hpc.dt.csv or external X1D Check files to here or ',
-            html.A('Select File')]),
+        children=html.Div(
+            ['Drag and Drop *.TSF, *.TLF, *MB.csv, *PO.csv, *.hpc.dt.csv or external X1D Check files to here or ',
+             html.A('Select File')]),
         multiple=True,
         style={
             "width": "100%",
@@ -37,12 +38,12 @@ app.layout = html.Div([
     ),
 
     dcc.Graph(id="graph", config=dict({
-    'scrollZoom': True,"displaylogo": False,
-    'toImageButtonOptions': {
-        'format': 'svg',  # one of png, svg, jpeg, webp
-        'filename': 'TUFLOW Dashboard Output',
-    },
-})),
+        'scrollZoom': True, "displaylogo": False,
+        'toImageButtonOptions': {
+            'format': 'svg',  # one of png, svg, jpeg, webp
+            'filename': 'TUFLOW Dashboard Output',
+        },
+    })),
     html.Div(id="error", style={"color": "red", "marginTop": "10px"})
 ])
 
@@ -54,7 +55,6 @@ app.layout = html.Div([
     Input("upload", "filename"),
 )
 def update(contents, filename):
-
     if contents is None or filename is None:
         raise PreventUpdate
 
@@ -82,10 +82,11 @@ def update(contents, filename):
     except Exception as e:
         return go.Figure(), str(e)
 
+
 if __name__ == "__main__":
     app.run(debug=True)
 
     # TODO Tidy up code.
-    # Add tooltips with help.
+    # Improve error messaging like messages plugin
     # Add support for simulations_log.txt
-    # Add support for a table of messages.csv
+    # Add support hyperlinked wiki URL to messages plugin

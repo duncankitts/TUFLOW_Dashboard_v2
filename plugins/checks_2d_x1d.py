@@ -66,6 +66,11 @@ class Checks2DX1DPlugin(TuflowPlugin):
                 mode="lines",
                 name=data_cols[0],
                 marker_color="rgb(0,85,129)",
+                hovertemplate=(
+                    "Time: %{x}<br>"
+                    "Output: %{y}<br>"
+                ),
+
             )
         )
 
@@ -74,7 +79,13 @@ class Checks2DX1DPlugin(TuflowPlugin):
             dict(
                 method="restyle",
                 label=col,
-                args=[{"y": [df[col]]}],
+                args=[{"y": [df[col]],
+            "name": col,
+            "hovertemplate": [
+                "Time: %{x}<br>"
+                "Output: %{y}<br>"
+            ],
+}],
             )
             for col in data_cols
         ]

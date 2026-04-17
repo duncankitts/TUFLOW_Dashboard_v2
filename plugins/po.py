@@ -40,10 +40,6 @@ class POPlugin(TuflowPlugin):
             engine="python"
         )
 
-        # ---------- basic validation ----------
-        if df.shape[0] < 4 or df.shape[1] < 3:
-            raise ValueError("PO.csv header structure not recognised")
-
         # Line 1: descriptive headers
         hdr_desc = df.iloc[0].astype(str).str.strip()
 
@@ -84,6 +80,32 @@ class POPlugin(TuflowPlugin):
 
         time_col = "Time"
         runname = filename.replace("_PO.csv", "")
+
+
+        if df.shape[0] < 4 or df.shape[1] < 3:
+            fig = go.Figure()
+
+            fig.add_annotation(
+                text="<b>No PO output found</b><br>"
+                     "PO.csv header structure not recognised",
+                xref="paper",
+                yref="paper",
+                x=0.5,
+                y=0.5,
+                showarrow=False,
+                font=dict(size=14),
+                align="center"
+            )
+
+            fig.update_layout(
+                title=f"<b>TUFLOW PO Summary – {runname}</b>",
+                height=300,
+                xaxis=dict(visible=False),
+                yaxis=dict(visible=False),
+                margin=dict(l=20, r=20, t=60, b=20)
+            )
+
+            return fig
 
         # Attempt to dynamically set Y axis title based on PO header information for each trace.  Need to work on regions and GW outputs (are there others?).
         def yaxis_title_for_column(col: str) -> str:
@@ -131,13 +153,15 @@ class POPlugin(TuflowPlugin):
                     label=col_name,
 
                     args=[
-                        # Update the trace data
-                        {"y": [df.iloc[:, col_idx]]},
-
-                        # Y-axis title update
-                        {"yaxis.title.text": f"<b>{yaxis_title_for_column(col_name)}</b>"},
+                        {
+                            "y": [df.iloc[:, col_idx]],
+                            "hovertemplate": [
+                                f"Time: %{{x}}<br>"
+                                f"{yaxis_title_for_column(col_name)}: %{{y}}<br>"
+                            ],
+                            "name": col_name,
+                        },
                     ],
-
                 )
             )
 

@@ -10,6 +10,7 @@ from plugins.tsf_summary import TSFSummaryPlugin
 from plugins.tlf_defaults import TLFSummaryPlugin
 from plugins.run_stats import RunStats
 from plugins.start_stats import StartStats
+from plugins.messages import Messages
 
 # Add any additional plugins here (after importing them above)
 PLUGINS = [
@@ -24,7 +25,8 @@ PLUGINS = [
     TSFSummaryPlugin(),
     TLFSummaryPlugin(),
     RunStats(),
-    StartStats()
+    StartStats(),
+    Messages()
 ]
 
 def find_plugin(filename: str):
