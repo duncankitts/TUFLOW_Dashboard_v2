@@ -73,7 +73,7 @@ class TLFSummaryPlugin(TuflowPlugin):
             fig = go.Figure()
 
             fig.add_annotation(
-                text="<b>Format not support</b><br>"
+                text="<b>Format not supported</b><br>"
                      "This is likely to be a *.hpc.tlf.  Please use a *.tlf.",
                 xref="paper",
                 yref="paper",
@@ -81,8 +81,15 @@ class TLFSummaryPlugin(TuflowPlugin):
                 y=0.5,
                 showarrow=False,
                 font=dict(size=14),
-                align="center"
+                align="center",
             )
+            fig.update_layout(
+                height=300,
+                xaxis=dict(visible=False),
+                yaxis=dict(visible=False),
+                margin=dict(l=20, r=20, t=60, b=20)
+            )
+
         else:
 
             pattern = re.compile(
@@ -143,15 +150,15 @@ class TLFSummaryPlugin(TuflowPlugin):
             fig.update_layout(
                 height=1500,
                 margin=dict(l=10, r=10, t=10, b=10)
-            )
+                )
 
-            # -------------------------------
-            # Final formatting
-            # -------------------------------
-            fig = finalise_dashboard(
-                fig,
-                title=f"<b>TUFLOW TLF Settings – {runname}</b>"
-            )
+        # -------------------------------
+        # Final formatting
+        # -------------------------------
+        fig = finalise_dashboard(
+            fig,
+            title=f"<b>TUFLOW TLF Settings – {runname}</b>"
+        )
 
         return fig
 
