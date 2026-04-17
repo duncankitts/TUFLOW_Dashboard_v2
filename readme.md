@@ -70,6 +70,7 @@ The tool can be run in two ways:
   - Timesteps
   - Target timesteps
   - Control numbers
+- Colour Fill shows typical acceptable values.  Green is valid.
 - Subplots are linked:
   - Zooming in on one affects all others
 
