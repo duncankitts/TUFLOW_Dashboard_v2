@@ -4,15 +4,14 @@ TSF Summary plugin for TUFLOW Dash Dashboard
 Summarises TUFLOW *.tsf files (Classic & HPC)
 """
 
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-import numpy as np
-import io
-import pandas as pd
 import re
 
-from core.plugin_base import TuflowPlugin
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
 from core.layout import finalise_dashboard
+from core.plugin_base import TuflowPlugin
+from plotly.subplots import make_subplots
 
 
 class TSFSummaryPlugin(TuflowPlugin):

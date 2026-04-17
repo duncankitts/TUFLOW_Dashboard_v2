@@ -8,11 +8,12 @@ Handles:
 - x1D_H_from_2D.csv
 """
 
-import plotly.graph_objects as go
 import re
-from core.plugin_base import TuflowPlugin
-from core.parsing import parse_csv
+
+import plotly.graph_objects as go
 from core.layout import finalise_dashboard
+from core.parsing import parse_csv
+from core.plugin_base import TuflowPlugin
 
 
 class Checks2DX1DPlugin(TuflowPlugin):

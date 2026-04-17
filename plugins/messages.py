@@ -1,16 +1,15 @@
 """
-MB.csv plugin for TUFLOW Dash Dashboard
+Messages plugin for TUFLOW Dash Dashboard
 --------------------------------------
-Mass Balance summary plots
+Messages.csv summary table
 """
 
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 import re
-import pandas as pd
-from core.plugin_base import TuflowPlugin
-from core.parsing import parse_csv
+
+import plotly.graph_objects as go
 from core.layout import finalise_dashboard
+from core.parsing import parse_csv
+from core.plugin_base import TuflowPlugin
 
 
 class Messages(TuflowPlugin):

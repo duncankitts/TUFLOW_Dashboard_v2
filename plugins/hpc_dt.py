@@ -1,9 +1,10 @@
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-from core.plugin_base import TuflowPlugin
-from core.parsing import parse_csv
-from core.layout import finalise_dashboard
 import re
+
+import plotly.graph_objects as go
+from core.layout import finalise_dashboard
+from core.parsing import parse_csv
+from core.plugin_base import TuflowPlugin
+from plotly.subplots import make_subplots
 
 
 class HPCDTPlugin(TuflowPlugin):

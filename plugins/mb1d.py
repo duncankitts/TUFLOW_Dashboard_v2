@@ -4,12 +4,13 @@ MB1D.csv plugin for TUFLOW Dash Dashboard
 1D Mass Balance summary plots
 """
 
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 import re
-from core.plugin_base import TuflowPlugin
-from core.parsing import parse_csv
+
+import plotly.graph_objects as go
 from core.layout import finalise_dashboard
+from core.parsing import parse_csv
+from core.plugin_base import TuflowPlugin
+from plotly.subplots import make_subplots
 
 
 class MB1DPlugin(TuflowPlugin):

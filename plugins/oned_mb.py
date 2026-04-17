@@ -1,10 +1,11 @@
 import io
+import re
+
 import pandas as pd
 import plotly.graph_objects as go
-import re
-from core.plugin_base import TuflowPlugin
-from core.parsing import parse_csv
 from core.layout import finalise_dashboard
+from core.parsing import parse_csv
+from core.plugin_base import TuflowPlugin
 from core.styles import COLOURS
 
 
@@ -55,7 +56,7 @@ class OnedMBPlugin(TuflowPlugin):
 
 
         fig = go.Figure(
-            data=go.Scatter(x=df['Time'], y=df[df.columns[1]], mode='lines', marker_color='rgb(000,085,129)', hovertemplate=(
+            data=go.Scatter(x=df['Time'], y=df[df.columns[1]], mode='lines',name=df.columns[1], marker_color='rgb(000,085,129)', hovertemplate=(
                     "Time: %{x}<br>"
                     "Value: %{y}<br>")))
 
@@ -71,8 +72,9 @@ class OnedMBPlugin(TuflowPlugin):
                 dict(
                     method="restyle",
                     label=col,
-                    args=[{"y": [df.iloc[:, idx]]}],
-                )
+                    args=[{"y": [df.iloc[:, idx]],
+                           "name": col}],
+                    )
             )
 
         fig.update_layout(

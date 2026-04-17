@@ -5,13 +5,14 @@ MB2D.csv plugin for TUFLOW Dash Dashboard
 TUFLOW colours and line styles preserved.
 """
 
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 import re
-from core.plugin_base import TuflowPlugin
-from core.parsing import parse_csv
+
+import plotly.graph_objects as go
 from core.layout import finalise_dashboard
+from core.parsing import parse_csv
+from core.plugin_base import TuflowPlugin
 from core.styles import COLOURS, LINE_STYLES
+from plotly.subplots import make_subplots
 
 
 class MB2DPlugin(TuflowPlugin):
