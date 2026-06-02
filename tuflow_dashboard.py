@@ -40,7 +40,7 @@ colors = {
 }
 
 app.layout = html.Div([
-    html.Img(src=app.get_asset_url('Logo.jpg'), height=100),  # reads in TUFLOW logo
+    html.Img(src=app.get_asset_url('logo.jpg'), height=100),  # reads in TUFLOW logo
     dcc.Upload(
         id='upload-data',
         children=html.Div([
@@ -223,7 +223,7 @@ def update_graph(contents, filename):
 
             fig.add_layout_image(
                 dict(
-                    source=app.get_asset_url('Logo.jpg'),
+                    source=app.get_asset_url('logo.jpg'),
                     xref="paper", yref="paper",
                     x=1, y=1.0,
                     sizex=0.2, sizey=0.2,
@@ -393,7 +393,7 @@ def update_graph(contents, filename):
                               title_font_size=24)
             fig.add_layout_image(
                 dict(
-                    source=app.get_asset_url('Logo.jpg'),
+                    source=app.get_asset_url('logo.jpg'),
                     xref="paper", yref="paper",
                     x=1, y=1.0,
                     sizex=0.2, sizey=0.2,
@@ -603,7 +603,7 @@ def update_graph(contents, filename):
                               title_font_size=24)
             fig.add_layout_image(
                 dict(
-                    source=app.get_asset_url('Logo.jpg'),
+                    source=app.get_asset_url('logo.jpg'),
                     xref="paper", yref="paper",
                     x=1, y=1.0,
                     sizex=0.2, sizey=0.2,
@@ -779,7 +779,7 @@ def update_graph(contents, filename):
                               title_font_size=24)
             fig.add_layout_image(
                 dict(
-                    source=app.get_asset_url('Logo.jpg'),
+                    source=app.get_asset_url('logo.jpg'),
                     xref="paper", yref="paper",
                     x=1, y=1.0,
                     sizex=0.2, sizey=0.2,
@@ -1021,7 +1021,7 @@ def update_graph(contents, filename):
                               title_font_size=24)
             fig.add_layout_image(
                 dict(
-                    source=app.get_asset_url('Logo.jpg'),
+                    source=app.get_asset_url('logo.jpg'),
                     xref="paper", yref="paper",
                     x=1, y=1.0,
                     sizex=0.2, sizey=0.2,
@@ -1393,7 +1393,7 @@ def update_graph(contents, filename):
             )
             fig.add_layout_image(
                 dict(
-                    source=app.get_asset_url('Logo.jpg'),
+                    source=app.get_asset_url('logo.jpg'),
                     xref="paper", yref="paper",
                     x=1, y=1.0,
                     sizex=0.2, sizey=0.2,

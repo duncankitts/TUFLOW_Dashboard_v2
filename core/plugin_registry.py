@@ -12,6 +12,7 @@ from plugins.simulations_log import SimulationsLog
 from plugins.start_stats import StartStats
 from plugins.tlf_defaults import TLFSummaryPlugin
 from plugins.tsf_summary import TSFSummaryPlugin
+from plugins.eof import EOFPlugin
 
 # Add any additional plugins here (after importing them above)
 PLUGINS = [
@@ -28,7 +29,8 @@ PLUGINS = [
     RunStats(),
     StartStats(),
     Messages(),
-    SimulationsLog()
+    SimulationsLog(),
+    EOFPlugin()
 ]
 
 def find_plugin(filename: str):
