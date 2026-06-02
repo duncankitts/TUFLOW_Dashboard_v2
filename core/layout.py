@@ -18,7 +18,7 @@ def finalise_dashboard(fig, title):
     # Add watermark to pages
     fig.add_layout_image(
         dict(
-            source="../assets/logo.jpg",
+            source="../assets/Logo.jpg",
             xref="paper",
             yref="paper",
             x=0.5,
