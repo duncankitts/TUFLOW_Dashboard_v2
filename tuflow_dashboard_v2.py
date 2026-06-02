@@ -16,7 +16,7 @@ colors = {
 }
 
 app.layout = html.Div([
-    html.Img(src=app.get_asset_url("logo.jpg"),
+    html.Img(src=app.get_asset_url("Logo.jpg"),
              style={"height": "80px", "marginBottom": "30px"}),
 
     dcc.Upload(
