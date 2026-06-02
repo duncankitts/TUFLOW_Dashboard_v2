@@ -67,7 +67,7 @@ def update(contents, filename):
         return go.Figure(), f"Unsupported file type: {filename}"
 
     html.Img(
-        src=app.get_asset_url("logo.jpg"),
+        src=app.get_asset_url("Logo.jpg"),
         style={"height": "80px", "marginBottom": "30px"}
     ),
 
