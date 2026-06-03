@@ -188,6 +188,15 @@ The tool can be run in two ways:
   
 ---
 
+### **.eof Files**
+- Upload a `*.eof` file to generate a plot of the node storage tables held within the EOF including storage over obvert.
+	- Plot of the surface area versus elevation.  Useful to check defined node storage.
+	- Dropdown menu can be used to select different nodes.
+
+  ![EOF_Storage_Table](images/EOF.png)
+  
+---
+
 ## Dashboard Menu Items
 
 - Hover in the top-right corner of the dashboard to reveal the menu bar.
