@@ -7,6 +7,7 @@ Messages.csv summary table
 import re
 
 import plotly.graph_objects as go
+from dash import dash_table, html
 from core.layout import finalise_dashboard
 from core.parsing import parse_csv
 from core.plugin_base import TuflowPlugin
@@ -14,9 +15,13 @@ from core.plugin_base import TuflowPlugin
 
 class Messages(TuflowPlugin):
     """
-    Handles TUFLOW *MB.csv files
+    Handles TUFLOW *Message.csv files
     """
-
+    SEVERITY_COLOURS = {
+        "ERROR": "rgb(226,001,119)",
+        "WARNING": "rgb(126,209,225)",
+        "CHECK": "rgb(185,224,247)",
+    }
     @property
     def name(self) -> str:
         return "Run Messages Summary"
@@ -26,6 +31,41 @@ class Messages(TuflowPlugin):
         return [
             # Match *_mb.csv but NOT *_1d_mb.csv
             re.compile(r"(?<!_1d)_messages\.csv$", re.IGNORECASE),
+        ]
+
+    # ------------------------------------------------------------------
+    # Shared Methods
+    # ------------------------------------------------------------------
+    def _clean_data(self, df):
+        """Clean and normalize dataframe"""
+        df = df.copy()
+        df["Message_Text"] = df["Message_Text"].str.strip()
+        df["Wiki_URL"] = df["Wiki_URL"].astype(str).str.strip()
+        df["Severity"] = (
+            df["Message_Text"]
+            .str.upper()
+            .str.extract(r"(WARNING|ERROR|CHECK)", expand=False)
+        )
+        df["Message_ID"] = df["Message_ID"].astype(str).str.zfill(4)
+        return df
+
+    def _get_summary(self, df):
+        """Group messages by ID, Severity, Text and URL"""
+        return (
+            df.groupby(
+                ["Message_ID", "Severity", "Message_Text", "Wiki_URL"],
+                dropna=False
+            )
+            .size()
+            .reset_index(name="Count")
+            .sort_values("Count", ascending=False)
+        )
+
+    def _get_severity_colours(self, severity_list):
+        """Map severity values to colours"""
+        return [
+            self.SEVERITY_COLOURS.get(sev, "#325A7E")
+            for sev in severity_list
         ]
 
     # ------------------------------------------------------------------
@@ -53,49 +93,14 @@ class Messages(TuflowPlugin):
     # Plotting
     # ------------------------------------------------------------------
     def make_figure(self, df, filename: str):
-        # ------------------------------------------------------------
-        # 2. CLEAN AND NORMALISE
-        # ------------------------------------------------------------
-        # Strip whitespace
-        df["Message_Text"] = df["Message_Text"].str.strip()
-        df["Wiki_URL"] = df["Wiki_URL"].astype(str).str.strip()
+        # Clean and normalize
+        df = self._clean_data(df)
 
-        # Infer severity from text (robust)
-        df["Severity"] = df["Message_Text"].str.extract(
-            r"^(WARNING|ERROR|CHECK)",
-            expand=False
-        )
+        # Group unique messages
+        summary = self._get_summary(df)
+        severity_colours = self._get_severity_colours(summary["Severity"])
 
-        # Ensure Message_ID is string-safe
-        df["Message_ID"] = df["Message_ID"].astype(str).str.zfill(4)
-
-        # ------------------------------------------------------------
-        # 3. GROUP UNIQUE MESSAGES
-        # ------------------------------------------------------------
-        summary = (
-            df.groupby(
-                ["Message_ID", "Severity", "Message_Text", "Wiki_URL"],
-                dropna=False
-            )
-            .size()
-            .reset_index(name="Count")
-            .sort_values("Count", ascending=False)
-        )
-
-        SEVERITY_COLOURS = {
-            "ERROR": "rgb(226,001,119)",
-            "WARNING": "rgb(126,209,225)",
-            "CHECK": "rgb(185,224,247)",
-        }
-
-        severity_colours = [
-            SEVERITY_COLOURS.get(sev, '#325A7E')
-            for sev in summary["Severity"]
-        ]
-
-        # ------------------------------------------------------------
         # Early exit if messages file is empty or invalid
-        # ------------------------------------------------------------
         if df.empty or df["Message_Text"].dropna().empty:
             fig = go.Figure()
 
@@ -122,7 +127,6 @@ class Messages(TuflowPlugin):
             return fig
 
         # Create clickable wiki links with same visible text
-
         def make_wiki_link(url):
             if isinstance(url, str) and url.strip():
                 label = url.rstrip("/").split("/")[-1]
@@ -179,13 +183,85 @@ class Messages(TuflowPlugin):
             margin=dict(l=20, r=20, t=60, b=20)
         )
 
-        # ------------------------------------------------------------------
         # Final formatting
-        # ------------------------------------------------------------------
         fig = finalise_dashboard(
             fig,
             title=f"<b>TUFLOW Messages Summary – {runname}</b>",
         )
 
         return fig
+    def make_output(self, df, filename: str):
+        df = self._clean_data(df)
+        summary = self._get_summary(df)
 
+        if df.empty or df["Message_Text"].dropna().empty:
+            return html.Div(
+                [
+                    html.H4("No messages found"),
+                    html.P(
+                        "The messages file is empty or contains no valid entries."
+                    ),
+                ],
+                style={"padding": "20px"}
+            )
+
+        def make_wiki_markdown(url):
+            if isinstance(url, str) and url.strip():
+                label = url.rstrip("/").split("/")[-1]
+                return f"[{label}]({url})"
+            return ""
+
+        summary["Wiki_Link"] = summary["Wiki_URL"].apply(make_wiki_markdown)
+
+        # Build style_data_conditional for severity-based row colouring
+        style_data_conditional = [
+            {
+                "if": {"column_id": "Count"},
+                "textAlign": "right",
+            },
+        ]
+
+        # Add severity-based background colours to all cells in the row
+        for severity, colour in self.SEVERITY_COLOURS.items():
+            style_data_conditional.append({
+                "if": {"filter_query": f'{{Severity}} = "{severity}"'},
+                "backgroundColor": colour,
+            })
+
+        table = dash_table.DataTable(
+            columns=[
+                {"name": "Severity", "id": "Severity"},
+                {"name": "ID", "id": "Message_ID"},
+                {"name": "Message", "id": "Message_Text"},
+                {"name": "Wiki URL", "id": "Wiki_Link", "presentation": "markdown"},
+                {"name": "Count", "id": "Count"},
+            ],
+            data=summary.to_dict("records"),
+            page_size=20,
+            style_table={"overflowX": "auto"},
+            style_cell={
+                "textAlign": "left",
+                "whiteSpace": "normal",
+                "height": "auto",
+                "padding": "8px",
+                "fontFamily": '"Open Sans", verdana, arial, sans-serif',
+                "fontSize": "12px",
+            },
+
+            style_header={
+                "backgroundColor": "#325A7E",
+                "color": "white",
+                "fontWeight": "bold",
+            },
+            style_data_conditional=style_data_conditional,
+        )
+
+        runname = filename.replace("_messages.csv", "")
+
+        return html.Div(
+            [
+                html.H3(f"TUFLOW Messages Summary – {runname}"),
+                table,
+            ],
+            style={"padding": "20px"}
+        )

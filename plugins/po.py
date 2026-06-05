@@ -148,16 +148,17 @@ class POPlugin(TuflowPlugin):
                 dict(
                     method="update",
                     label=col_name,
-
                     args=[
-                        {
-                            "y": [df.iloc[:, col_idx]],
+                        {"y": [df.iloc[:, col_idx]],
                             "hovertemplate": [
                                 f"Time: %{{x}}<br>"
                                 f"{yaxis_title_for_column(col_name)}: %{{y}}<br>"
                             ],
-                            "name": col_name,
-                        },
+                            "name": col_name,},
+                        {"yaxis": {
+                                "title": f"<b>{yaxis_title_for_column(col_name)}</b>",
+                            }
+            },
                     ],
                 )
             )

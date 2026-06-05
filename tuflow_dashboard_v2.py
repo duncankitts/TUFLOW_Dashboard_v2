@@ -36,19 +36,13 @@ app.layout = html.Div([
         },
     ),
 
-    dcc.Graph(id="graph", config=dict({
-        'scrollZoom': True, "displaylogo": False,
-        'toImageButtonOptions': {
-            'format': 'png', #'svg',  # one of png, svg, jpeg, webp
-            'filename': 'TUFLOW Dashboard Output',
-        },
-    })),
+    html.Div(id="result"),
     html.Div(id="error", style={"color": "red", "marginTop": "10px"})
 ])
 
 
 @app.callback(
-    Output("graph", "figure"),
+    Output("result", "children"),
     Output("error", "children"),
     Input("upload", "contents"),
     Input("upload", "filename"),
@@ -64,22 +58,29 @@ def update(contents, filename):
 
     plugin = find_plugin(filename)
     if not plugin:
-        return go.Figure(), f"Unsupported file type: {filename}"
-
-    html.Img(
-        src=app.get_asset_url("Logo.jpg"),
-        style={"height": "80px", "marginBottom": "30px"}
-    ),
+        return None, f"Unsupported file type: {filename}"
 
     try:
         raw = decode_upload(contents)
         data = plugin.parse(raw)
-        fig = plugin.make_figure(data, filename)
-        return fig, ""
 
+        if hasattr(plugin, "make_output"):
+            return plugin.make_output(data, filename), ""
+
+        return dcc.Graph(
+            figure=plugin.make_figure(data, filename),
+            config={
+                'scrollZoom': True,
+                "displaylogo": False,
+                'toImageButtonOptions': {
+                    'format': 'png',
+                    'filename': 'TUFLOW Dashboard Output',
+                },
+            }
+        ), ""
 
     except Exception as e:
-        return go.Figure(), str(e)
+        return None, str(e)
 
 
 if __name__ == "__main__":
@@ -87,4 +88,3 @@ if __name__ == "__main__":
 
     # TODO Tidy up code.
     # Improve error messaging like messages plugin
-    # Add support hyperlinked wiki URL to messages plugin
