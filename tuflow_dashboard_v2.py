@@ -88,3 +88,4 @@ if __name__ == "__main__":
 
     # TODO Tidy up code.
     # Improve error messaging like messages plugin
+    # Support POMM files? HPC.TLF? Grids or Result Files (should be technically possible with PyTUFLOW)
