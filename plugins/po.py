@@ -95,7 +95,10 @@ class POPlugin(TuflowPlugin):
             )
 
             fig.update_layout(
-                title=f"<b>TUFLOW PO Summary – {runname}</b>",
+                title=dict(text=f"<b>TUFLOW PO Summary – {runname}</b>",
+                x=0.5,
+                xanchor='center'
+                ),
                 height=300,
                 xaxis=dict(visible=False),
                 yaxis=dict(visible=False),
