@@ -105,12 +105,12 @@ class EOFPlugin(TuflowPlugin):
 
             return fig
 
-        # --- Expecting columns exactly like your parser output ---
+        # --- Read Relevent columns ---
         required_cols = ["Node", "Elevation (m)", "Surface Area (m2)"]
         if not all(c in df.columns for c in required_cols):
             raise ValueError("Expected columns: Node, Elevation (m), Surface Area (m2)")
 
-        # --- Sort per node (important for clean curves) ---
+        # --- Sort per node ---
         df = df.sort_values(["Node", "Elevation (m)"])
 
         nodes = df["Node"].unique()
@@ -125,7 +125,7 @@ class EOFPlugin(TuflowPlugin):
         def xaxis_title_for_node():
             return "Surface Area (m²)"
 
-        # --- First node (initial trace) ---
+        # --- First node for initial trace ---
         first_node = nodes[0]
         first_df = df[df["Node"] == first_node]
 
@@ -148,7 +148,7 @@ class EOFPlugin(TuflowPlugin):
         fig.update_xaxes(rangemode="tozero")# Include zero
         fig.update_yaxes(title_text=f"<b>{yaxis_title_for_node()}</b>")
 
-        # --- Dropdown (same pattern as your PO code) ---
+        # --- Dropdown Button Setup ---
         buttons = []
 
         for node in nodes:

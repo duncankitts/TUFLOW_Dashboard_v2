@@ -276,14 +276,10 @@ class MB1DPlugin(TuflowPlugin):
         runname = filename[:-9]
         fig.update_layout(template="plotly_white", title_text="<b>TUFLOW MB 1D Summary Graphs for <b>" + runname,
                           height = 650, title_font_size=24)
-       
 
-        # --------------------------------------------------------------
-        # Final formatting
-        # --------------------------------------------------------------
         fig = finalise_dashboard(
             fig,
-            title=f"<b>TUFLOW MB1D Summary – {runname}</b>",
+            title=f"<b>TUFLOW MB 1D Summary Graphs – {runname}</b>",
         )
-
+       
         return fig

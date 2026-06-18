@@ -17,7 +17,7 @@ from core.layout import finalise_dashboard
 
 class Checks2DX1DPlugin(TuflowPlugin):
     """
-    Handles TUFLOW FM External 1D Check CSV files
+    Handles TUFLOW External 1D Check CSV files (ie, from FM-TUFLOW models)
     """
 
     @property

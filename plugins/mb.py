@@ -206,13 +206,9 @@ class MBPlugin(TuflowPlugin):
         fig.update_layout(template="plotly_white", title_text="<b>TUFLOW MB Summary Graphs for <b>" + runname,
                           height = 650, title_font_size=24)
 
-        # ------------------------------------------------------------------
-        # Final formatting
-        # ------------------------------------------------------------------
         fig = finalise_dashboard(
             fig,
-            title=f"<b>TUFLOW MB Summary – {runname}</b>",
+            title=f"<b>TUFLOW MB Summary Graphs – {runname}</b>",
         )
 
         return fig
-

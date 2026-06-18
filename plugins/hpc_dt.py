@@ -147,13 +147,11 @@ class HPCDTPlugin(TuflowPlugin):
         runname = filename[:-11]
         fig.update_layout(template="plotly_white", title_text="<b>TUFLOW HPC Summary Graphs for <b>" + runname,
                     showlegend=False, title_font_size=24, height = 650)
-                    
-        # ------------------------------------------------------------------
-        # Final formatting
-        # ------------------------------------------------------------------
+
         fig = finalise_dashboard(
             fig,
-            title=f"<b>TUFLOW MB Summary – {runname}</b>",
+            title=f"<b>TUFLOW HPC Summary Graphs – {runname}</b>",
         )
 
+                    
         return fig

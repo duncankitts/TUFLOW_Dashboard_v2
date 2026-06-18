@@ -17,7 +17,7 @@ from core.plugin_base import TuflowPlugin
 
 class SimulationsLog(TuflowPlugin):
     """
-    Handles _ TUFLOW Simulations.log summary files
+    Handles _TUFLOW Simulations.log summary files
     """
 
     @property
@@ -166,7 +166,7 @@ class SimulationsLog(TuflowPlugin):
         return df
 
     # ------------------------------------------------------------
-    # Build Plotly table
+    # Table Plotting
     # ------------------------------------------------------------
     def make_figure(self, df: pd.DataFrame, filename: str):
 

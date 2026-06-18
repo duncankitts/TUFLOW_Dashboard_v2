@@ -34,7 +34,7 @@ class Messages(TuflowPlugin):
         ]
 
     # ------------------------------------------------------------------
-    # Shared Methods
+    # Clean Data and Get Summary Functions
     # ------------------------------------------------------------------
     def _clean_data(self, df):
         """Clean and normalize dataframe"""
@@ -100,7 +100,7 @@ class Messages(TuflowPlugin):
         summary = self._get_summary(df)
         severity_colours = self._get_severity_colours(summary["Severity"])
 
-        # Early exit if messages file is empty or invalid
+        # Exit if messages file is empty or invalid
         if df.empty or df["Message_Text"].dropna().empty:
             fig = go.Figure()
 
@@ -126,7 +126,7 @@ class Messages(TuflowPlugin):
 
             return fig
 
-        # Create clickable wiki links with same visible text
+        # Create clickable wiki links for error messages
         def make_wiki_link(url):
             if isinstance(url, str) and url.strip():
                 label = url.rstrip("/").split("/")[-1]
@@ -183,12 +183,6 @@ class Messages(TuflowPlugin):
             margin=dict(l=20, r=20, t=60, b=20)
         )
 
-        # Final formatting
-        fig = finalise_dashboard(
-            fig,
-            title=f"<b>TUFLOW Messages Summary – {runname}</b>",
-        )
-
         return fig
     def make_output(self, df, filename: str):
         df = self._clean_data(df)
@@ -213,7 +207,7 @@ class Messages(TuflowPlugin):
 
         summary["Wiki_Link"] = summary["Wiki_URL"].apply(make_wiki_markdown)
 
-        # Build style_data_conditional for severity-based row colouring
+        # Build conditional styling for severity-based row colouring
         style_data_conditional = [
             {
                 "if": {"column_id": "Count"},

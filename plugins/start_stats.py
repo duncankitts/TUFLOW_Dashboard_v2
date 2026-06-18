@@ -42,10 +42,10 @@ class StartStats(TuflowPlugin):
         df["Total (s)"] = pd.to_numeric(df["Total (s)"], errors="coerce")
         df["Elapsed (s)"] = pd.to_numeric(df["Elapsed (s)"], errors="coerce")
 
-        # Drop zero or near-zero elapsed times (optional but recommended)
+        # Drop zero or near-zero elapsed times
         df = df[df["Elapsed (s)"] > 0.0]
 
-        # Preserve original file order explicitly
+        # Preserve original file order 
         df["File Order"] = df.index
 
         return df
@@ -58,7 +58,7 @@ class StartStats(TuflowPlugin):
         runname = filename.replace("_start_stats.txt", "")
 
         # --------------------------------------------------
-        # Group small stages into "Other"
+        # Group small intialisation steps into "Other"
         # --------------------------------------------------
         small = df["Elapsed (s)"] < small_stage_threshold
         other_elapsed = df.loc[small, "Elapsed (s)"].sum()
@@ -74,7 +74,7 @@ class StartStats(TuflowPlugin):
                 }])
             ])
 
-        # Sort for bar chart (largest elapsed at top)
+        # Sort  bar chart (largest elapsed at top)
         bars_df = bars_df.sort_values("Elapsed (s)", ascending=True)
 
         fig= go.Figure()

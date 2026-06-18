@@ -211,13 +211,8 @@ class MBHPCPlugin(TuflowPlugin):
         fig.update_layout(template="plotly_white", title_text="<b>TUFLOW HPC_MB Summary Graphs for <b>" + runname,
                           height = 650, title_font_size=24)
 
-
-        # --------------------------------------------------------------
-        # Final formatting
-        # --------------------------------------------------------------
         fig = finalise_dashboard(
             fig,
-            title=f"<b>TUFLOW MB_HPC Summary – {runname}</b>",
+            title=f"<b>TUFLOW HPC MB Summary Graphs – {runname}</b>",
         )
-
         return fig

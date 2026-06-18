@@ -150,15 +150,12 @@ class POPlugin(TuflowPlugin):
                     label=col_name,
                     args=[
                         {"y": [df.iloc[:, col_idx]],
-                            "hovertemplate": [
-                                f"Time: %{{x}}<br>"
-                                f"{yaxis_title_for_column(col_name)}: %{{y}}<br>"
-                            ],
-                            "name": col_name,},
-                        {"yaxis": {
-                                "title": f"<b>{yaxis_title_for_column(col_name)}</b>",
-                            }
-            },
+                         "hovertemplate": [
+                             f"Time: %{{x}}<br>"
+                             f"{yaxis_title_for_column(col_name)}: %{{y}}<br>"
+                         ],
+                         "name": col_name},
+                        {"yaxis.title.text": f"<b>{yaxis_title_for_column(col_name)}</b>"}
                     ],
                 )
             )
