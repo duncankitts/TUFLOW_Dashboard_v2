@@ -165,7 +165,8 @@ The tool can be run in two ways:
 ### **Messages.csv Files**
 - Upload a `*_messages.csv` file to generate a table of the model messages.
 	- Counts unique messages and sorts in order from highest to lowest.
-	- Colour coded based on severity
+	- Colour coded based on severity.
+    - Hyperlinked Error messages take you to the TUFLOW Messages Database for the specific error.
 
   ![Messages_CSV_View](images/Messages_CSV_View.png)
   
