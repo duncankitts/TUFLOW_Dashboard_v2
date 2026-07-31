@@ -13,6 +13,11 @@ from plugins.start_stats import StartStats
 from plugins.tlf_defaults import TLFSummaryPlugin
 from plugins.tsf_summary import TSFSummaryPlugin
 from plugins.eof import EOFPlugin
+from plugins.fv_mass import FVMassPlugin
+from plugins.fv_flux import FVFluxPlugin
+from plugins.fv_structflux import FVSTRUCTFlux_Plugin
+from plugins.fv_points import FVPoints_Plugin
+from plugins.fvwq_mass_balance import FV_wq_mb_Plugin
 
 # Add any additional plugins here (after importing them above)
 PLUGINS = [
@@ -30,7 +35,12 @@ PLUGINS = [
     StartStats(),
     Messages(),
     SimulationsLog(),
-    EOFPlugin()
+    EOFPlugin(),
+    FVMassPlugin(),
+    FVFluxPlugin(),
+    FVSTRUCTFlux_Plugin(),
+    FVPoints_Plugin(),
+    FV_wq_mb_Plugin()
 ]
 
 def find_plugin(filename: str):

@@ -1,4 +1,3 @@
-import plotly.graph_objects as go
 from core.parsing import decode_upload
 from core.plugin_registry import find_plugin
 from dash import Dash, dcc, html, Input, Output
@@ -51,14 +50,24 @@ def update(contents, filename):
     if contents is None or filename is None:
         raise PreventUpdate
 
-    if isinstance(contents, list):
+    if isinstance(contents, list) and isinstance(filename, list):
+        if len(contents) != len(filename):
+            return None, "Upload error: file content and filename count do not match. Please try again."
+        if len(contents) != 1:
+            return None, "Please upload one file at a time. Multiple file upload is not supported yet."
         contents = contents[0]
-    if isinstance(filename, list):
         filename = filename[0]
+    elif isinstance(contents, list) or isinstance(filename, list):
+        return None, "Upload error: inconsistent upload payload. Please select a single file."
+
+    if not isinstance(filename, str) or not filename.strip():
+        return None, "Upload error: filename is missing or invalid. Please try again."
+    if not isinstance(contents, str) or not contents.strip():
+        return None, "Upload error: file contents are invalid or empty. Please try again."
 
     plugin = find_plugin(filename)
     if not plugin:
-        return None, f"Unsupported file type: {filename}"
+        return None, f"Unsupported file type: {filename}. Please upload one of the supported TUFLOW files."
 
     try:
         raw = decode_upload(contents)
@@ -79,8 +88,10 @@ def update(contents, filename):
             }
         ), ""
 
+    except ValueError as e:
+        return None, f"Upload failed: {str(e)}"
     except Exception as e:
-        return None, str(e)
+        return None, f"Unexpected error processing {filename}: {e.__class__.__name__}. Please check the file and try again."
 
 
 if __name__ == "__main__":
@@ -89,3 +100,4 @@ if __name__ == "__main__":
     # TODO Tidy up code.
     # Improve error messaging like messages plugin
     # Support POMM files? HPC.TLF? Grids or Result Files (should be technically possible with PyTUFLOW)
+    # FV Mass (test), FLUX (Test), Points (Test), Structflux (Test), Mass Balance (Test)
