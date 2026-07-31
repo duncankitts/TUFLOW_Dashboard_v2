@@ -8,6 +8,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 from core.layout import finalise_dashboard
+from core.parsing import parse_time_column
 from core.plugin_base import TuflowPlugin
 from core.styles import COLOURS
 
@@ -94,10 +95,7 @@ class FV_wq_mb_Plugin(TuflowPlugin):
 
         for col in df.columns:
             if col == "Time":
-                try:
-                    df[col] = pd.to_datetime(df[col], dayfirst=True, errors="coerce")
-                except Exception:
-                    pass
+                df[col] = parse_time_column(df[col])
             else:
                 df[col] = pd.to_numeric(
                     df[col].astype(str).str.replace(" ", "", regex=False),

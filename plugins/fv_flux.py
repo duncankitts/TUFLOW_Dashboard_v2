@@ -6,6 +6,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 from core.layout import finalise_dashboard
+from core.parsing import parse_time_column
 from core.plugin_base import TuflowPlugin
 from core.styles import COLOURS
 
@@ -55,11 +56,7 @@ class FVFluxPlugin(TuflowPlugin):
             inplace=True
         )
 
-        df["Time"] = pd.to_datetime(
-            df["Time"],
-            dayfirst=True,
-            errors="coerce"
-        )
+        df["Time"] = parse_time_column(df["Time"])
 
         for col in df.columns:
             if col != "Time":
