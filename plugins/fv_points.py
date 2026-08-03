@@ -104,7 +104,23 @@ class FVPoints_Plugin(TuflowPlugin):
                 site = parts[0].replace("_", " ").strip()
                 variable = parts[1]
 
-        variable_display = variable.replace("_", " ").title()
+        display_lookup = {
+            "vx": "Velocity X",
+            "vy": "Velocity Y",
+            "vz": "Velocity Z",
+            "d": "Depth",
+            "h": "Water Surface Elevation",
+        }
+
+        variable_display = display_lookup.get(
+            variable.lower(),
+            variable.replace("_", " ").title()
+        )
+
+        print(variable)
+
+        if variable.lower() == "h":
+            units = "m AD"
 
         return {
             "site": site,

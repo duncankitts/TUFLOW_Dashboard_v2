@@ -8,7 +8,6 @@ import re
 
 import plotly.graph_objects as go
 from dash import dash_table, html
-from core.layout import finalise_dashboard
 from core.parsing import parse_csv
 from core.plugin_base import TuflowPlugin
 
@@ -29,8 +28,8 @@ class Messages(TuflowPlugin):
     @property
     def match_patterns(self):
         return [
-            # Match *_mb.csv but NOT *_1d_mb.csv
-            re.compile(r"(?<!_1d)_messages\.csv$", re.IGNORECASE),
+            # Match *_messages.csv
+            re.compile(r"_messages\.csv$", re.IGNORECASE),
         ]
 
     # ------------------------------------------------------------------

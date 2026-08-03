@@ -4,9 +4,6 @@ import re
 import pandas as pd
 import plotly.graph_objects as go
 from core.layout import finalise_dashboard
-from core.layout import finalise_dashboard
-from core.parsing import parse_csv
-from core.plugin_base import TuflowPlugin
 from core.plugin_base import TuflowPlugin
 from core.styles import COLOURS
 from plotly.subplots import make_subplots

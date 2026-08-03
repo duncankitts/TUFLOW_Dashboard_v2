@@ -240,11 +240,11 @@ class FV_wq_mb_Plugin(TuflowPlugin):
             )
 
         if determinant.lower() == "volume":
-            fig.update_yaxes(title_text="<b>Pollutant Volume</b>", row=1, col=1)
-            fig.update_yaxes(title_text="<b>Pollutant Volume Flux</b>", row=2, col=1)
+            fig.update_yaxes(title_text="<b>Volume</b>", row=1, col=1)
+            fig.update_yaxes(title_text="<b>Volume Flux</b>", row=2, col=1)
         else:
-            fig.update_yaxes(title_text="<b>Pollutant Mass</b>", row=1, col=1)
-            fig.update_yaxes(title_text="<b>Pollutant Mass Flux</b>", row=2, col=1)
+            fig.update_yaxes(title_text=f"<b>{determinant} Mass</b>", row=1, col=1)
+            fig.update_yaxes(title_text=f"<b>{determinant} Mass Flux</b>", row=2, col=1)
 
         fig.update_yaxes(title_text="<b>Percentage error (%)</b>", row=1, col=1, secondary_y=True)
         fig.update_yaxes(title_text="<b>Turnover (-)</b>", row=2, col=1, secondary_y=True)

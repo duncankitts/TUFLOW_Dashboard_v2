@@ -229,7 +229,7 @@ class FVMassPlugin(TuflowPlugin):
                 y=df[water_mass_col],
                 mode="lines",
                 name="Water Mass",
-                line=dict(color="#ff7f0e"),
+                line=dict(color="rgb(226,001,119)"),
                 showlegend=True
             ),
             row=1,

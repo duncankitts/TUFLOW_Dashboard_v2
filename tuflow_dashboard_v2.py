@@ -3,41 +3,63 @@ from core.plugin_registry import find_plugin
 from dash import Dash, dcc, html, Input, Output
 from dash.exceptions import PreventUpdate
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+EXTERNAL_STYLESHEETS = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
+UPLOAD_HELP_TEXT = (
+    "Drag and drop a supported TUFLOW file here, or "
+    "select one from your device."
+)
 
-app = Dash(__name__, external_stylesheets=external_stylesheets)
+app = Dash(__name__, external_stylesheets=EXTERNAL_STYLESHEETS)
 app.title = "TUFLOW Dashboard"
+server = app.server
 
-colors = {
-    "graphBackground": "#F5F5F5",
-    "background": "#ffffff",
-    "text": "#000000"
-}
+app.layout = html.Div(
+    [
+        html.Img(
+            src=app.get_asset_url("Logo.jpg"),
+            style={"height": "80px", "marginBottom": "30px"},
+        ),
+        dcc.Upload(
+            id="upload",
+            children=html.Div([UPLOAD_HELP_TEXT, html.A(" Select File")]),
+            multiple=True,
+            style={
+                "width": "100%",
+                "height": "50px",
+                "lineHeight": "50px",
+                "borderWidth": "1px",
+                "borderStyle": "dashed",
+                "borderRadius": "5px",
+                "textAlign": "center",
+            },
+        ),
+        html.Div(id="result"),
+        html.Div(id="error", style={"color": "red", "marginTop": "10px"}),
+    ],
+    style={"padding": "20px"},
+)
 
-app.layout = html.Div([
-    html.Img(src=app.get_asset_url("Logo.jpg"),
-             style={"height": "80px", "marginBottom": "30px"}),
 
-    dcc.Upload(
-        id="upload",
-        children=html.Div(
-            ['Drag and Drop *.TSF, *.TLF, *MB.csv, *PO.csv, *.hpc.dt.csv, .eof, run_stats.txt, start_stats.txt, messages.csv, _ TUFLOW Simulations.log or external X1D Check files to here or ',
-             html.A('Select File')]),
-        multiple=True,
-        style={
-            "width": "100%",
-            "height": "50px",
-            "lineHeight": "50px",
-            "borderWidth": "1px",
-            "borderStyle": "dashed",
-            "borderRadius": "5px",
-            "textAlign": "center",
-        },
-    ),
+def _normalise_upload_payload(contents, filename):
+    if contents is None or filename is None:
+        raise PreventUpdate
 
-    html.Div(id="result"),
-    html.Div(id="error", style={"color": "red", "marginTop": "10px"})
-])
+    if isinstance(contents, list) and isinstance(filename, list):
+        if len(contents) != len(filename):
+            raise ValueError("File content and filename count do not match.")
+        if len(contents) != 1:
+            raise ValueError("Please upload one file at a time.")
+        return contents[0], filename[0]
+
+    if isinstance(contents, list) or isinstance(filename, list):
+        raise ValueError("Please select a single file.")
+
+    if not isinstance(filename, str) or not filename.strip():
+        raise ValueError("Filename is missing or invalid.")
+    if not isinstance(contents, str) or not contents.strip():
+        raise ValueError("File contents are invalid or empty.")
+
+    return contents, filename
 
 
 @app.callback(
@@ -47,27 +69,16 @@ app.layout = html.Div([
     Input("upload", "filename"),
 )
 def update(contents, filename):
-    if contents is None or filename is None:
-        raise PreventUpdate
-
-    if isinstance(contents, list) and isinstance(filename, list):
-        if len(contents) != len(filename):
-            return None, "Upload error: file content and filename count do not match. Please try again."
-        if len(contents) != 1:
-            return None, "Please upload one file at a time. Multiple file upload is not supported yet."
-        contents = contents[0]
-        filename = filename[0]
-    elif isinstance(contents, list) or isinstance(filename, list):
-        return None, "Upload error: inconsistent upload payload. Please select a single file."
-
-    if not isinstance(filename, str) or not filename.strip():
-        return None, "Upload error: filename is missing or invalid. Please try again."
-    if not isinstance(contents, str) or not contents.strip():
-        return None, "Upload error: file contents are invalid or empty. Please try again."
+    try:
+        contents, filename = _normalise_upload_payload(contents, filename)
+    except PreventUpdate:
+        raise
+    except ValueError as exc:
+        return None, f"Upload error: {exc}"
 
     plugin = find_plugin(filename)
     if not plugin:
-        return None, f"Unsupported file type: {filename}. Please upload one of the supported TUFLOW files."
+        return None, f"Unsupported file type: {filename}."
 
     try:
         raw = decode_upload(contents)
@@ -79,25 +90,28 @@ def update(contents, filename):
         return dcc.Graph(
             figure=plugin.make_figure(data, filename),
             config={
-                'scrollZoom': True,
+                "scrollZoom": True,
                 "displaylogo": False,
-                'toImageButtonOptions': {
-                    'format': 'png',
-                    'filename': 'TUFLOW Dashboard Output',
+                "toImageButtonOptions": {
+                    "format": "png",
+                    "filename": "TUFLOW Dashboard Output",
                 },
-            }
+            },
         ), ""
-
-    except ValueError as e:
-        return None, f"Upload failed: {str(e)}"
-    except Exception as e:
-        return None, f"Unexpected error processing {filename}: {e.__class__.__name__}. Please check the file and try again."
+    except ValueError as exc:
+        return None, f"Upload failed: {exc}"
+    except Exception as exc:
+        return None, (
+            f"Unexpected error processing {filename}: "
+            f"{exc.__class__.__name__}."
+        )
 
 
 if __name__ == "__main__":
     app.run(debug=True)
 
-    # TODO Tidy up code.
-    # Improve error messaging like messages plugin
-    # Support POMM files? HPC.TLF? Grids or Result Files (should be technically possible with PyTUFLOW)
-    # FV Mass (test), FLUX (Test), Points (Test), Structflux (Test), Mass Balance (Test)
+#TODO: Support for POMM files?
+#TODO: What about other result files?
+#TODO: Tidy up error messaging
+#TODO: Tidy up some of the displays.  Particularly the mass balance outputs.
+#TODO: Check colour scheme throughout.

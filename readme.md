@@ -3,9 +3,9 @@
 
 ## Introduction
 
-The **TUFLOW Summary Dashboard** tool provides a dashboard interface that allows users to drag and drop a **TUFLOW Summary File (TSF)** or a **TUFLOW *.hpc.dt.csv** file. It then plots a number of summary statistics and visualisations summarising the **TUFLOW HPC timesteps** and **control numbers**.
+The **TUFLOW Summary Dashboard** tool provides a dashboard interface that allows users to drag and drop a various **TUFLOW Classic/HPC** and **TUFLOW FV** files, for example, the TUFLOW Summary File (TSF), TUFLOW *.hpc.dt.csv or TUFLOW FV *_int_cfl_dt.csv file. It then plots a number of summary statistics and visualisations summarising the file.  Time series result files can also be plotted, negating the need to plot up in Excel or similar.  This provides a quick way to plot up time-series outputs.
 
-This tool offers a quick way to visualise the success and quality of a TUFLOW simulation and allows users to download the information for **QA purposes**.
+This tool offers a quick way to visualise the success and quality of a TUFLOW HPC/Classic or TUFLOW FV simulation and allows users to download the information for **QA purposes**.
 
 ---
 
@@ -35,7 +35,7 @@ The tool can be run in two ways:
 
 ---
 
-## File Uploads
+## TUFLOW HPC/Classic File Uploads
 
 ### **TUFLOW Summary File (TSF)**
 - Drag and drop a TSF file to generate a reporting dashboard.
@@ -195,6 +195,60 @@ The tool can be run in two ways:
 	- Dropdown menu can be used to select different nodes.
 
   ![EOF_Storage_Table](images/EOF.png)
+  
+---
+
+## TUFLOW FV Plots
+
+### TUFLOW FV **points.csv Files**
+- Upload a TUFLOW FV `*_points.csv' file to generate a plot of the time series results for each point.
+	- Dropdown menu can be used to select different points.
+
+  ![FV_Points](images/FVpoints.png)
+  
+---
+
+### TUFLOW FV **flux.csv Files**
+- Upload a TUFLOW FV `*_flux.csv' file to generate a plot of the time series results for each flux line.
+	- Dropdown menu can be used to select different flux lines.
+
+  ![FV_Flux](images/FVflux.png)
+  
+---
+
+### TUFLOW FV **structflux.csv Files**
+- Upload a TUFLOW FV `*_flux.csv' file to generate a plot of the time series results for each structure line.
+	- Dropdown menu can be used to select different structure lines.
+
+  ![FV_structure](images/FVstructflux.png)
+  
+---
+
+### TUFLOW FV **mass.csv Files**
+- Upload a TUFLOW FV `*_mass.csv' file to generate a plot of the time series results for the model mass.
+	- Top plot shows the total model volume and mass.
+	- Dropdown menu can be used to select different determinant mass on the second plot.
+
+  ![FV_Mass](images/FVmass.png)
+  
+---
+
+### TUFLOW FV **massbalance.csv Files**
+- Upload a TUFLOW FV `*_mass.csv' file to generate a plot of the time series results for the model mass.
+	- Top plot shows the total determinent mass/volume within the model.
+	- Second plot shows the determinant fluxes throughout the simulation.
+
+  ![FV_Mass_Balance](images/FVmassbalance.png)
+  
+---
+
+### TUFLOW FV **ext_cfl_dt.csv and int_cfl_dt.csv Files**
+- Upload a TUFLOW FV `*ext_cfl_dt.csv' or `*int_cfl_dt.csv'file to generate a plot of mesh element centroids and the relative timestep %.  Useful to highlight small timesteps within the model domain
+	- Top plot shows a map of the timesteps.  Use the dropdown menu to select the Minimum timestep (cfl_dt_min) or the mean timestep (cfl_dt_mean).
+  - Use the slider to show mesh elements centroid lower than the selected percentile.- The bottom plot shows a histogram of the timestep values.
+	
+
+  ![FV_CFL_Timesteps](images/FV_CFL_Timestep.png)
   
 ---
 

@@ -1,13 +1,8 @@
-import io
 import re
 
-import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-from core.layout import finalise_dashboard
-from core.parsing import parse_csv
 from core.plugin_base import TuflowPlugin
-from core.styles import COLOURS
 
 
 class EOFPlugin(TuflowPlugin):
@@ -72,9 +67,6 @@ class EOFPlugin(TuflowPlugin):
     # ------------------------------------------------------------
     # PLOT
     # ------------------------------------------------------------
-    import plotly.graph_objs as go
-    import pandas as pd
-
     def make_figure(self, df: pd.DataFrame, filename: str):
 
         runname = filename.replace(".eof", "")
