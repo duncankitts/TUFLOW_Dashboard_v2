@@ -19,6 +19,7 @@ from plugins.simulations_log import SimulationsLog
 from plugins.start_stats import StartStats
 from plugins.tlf_defaults import TLFSummaryPlugin
 from plugins.tsf_summary import TSFSummaryPlugin
+from plugins.fv_log import FVlog_Plugin
 
 PLUGIN_CLASSES = [
     OnedMBPlugin,
@@ -35,6 +36,7 @@ PLUGIN_CLASSES = [
     StartStats,
     Messages,
     SimulationsLog,
+    FVlog_Plugin,
     EOFPlugin,
     FVMassPlugin,
     FVFluxPlugin,

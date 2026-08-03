@@ -244,11 +244,20 @@ The tool can be run in two ways:
 
 ### TUFLOW FV **ext_cfl_dt.csv and int_cfl_dt.csv Files**
 - Upload a TUFLOW FV `*ext_cfl_dt.csv' or `*int_cfl_dt.csv'file to generate a plot of mesh element centroids and the relative timestep %.  Useful to highlight small timesteps within the model domain
-	- Top plot shows a map of the timesteps.  Use the dropdown menu to select the Minimum timestep (cfl_dt_min) or the mean timestep (cfl_dt_mean).
+	- Top plot shows a map of the mesh element centroids themed by the timestep.  Use the dropdown menu to select the Minimum timestep (cfl_dt_min) or the mean timestep (cfl_dt_mean).
   - Use the slider to show mesh elements centroid lower than the selected percentile.- The bottom plot shows a histogram of the timestep values.
 	
 
   ![FV_CFL_Timesteps](images/FV_CFL_Timestep.png)
+  
+---
+
+### TUFLOW FV **.log**
+- Upload a TUFLOW FV `*.log' to generate a plot of the timesteps being used.
+	- Top plot shows a time-series of the internal and external timesteps being used within the simulation
+  - The bottom plot shows a time-series of the elapsed time.  
+	
+  ![FV__Timesteps](images/FV_Timestep.png)
   
 ---
 

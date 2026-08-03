@@ -2,7 +2,9 @@ import re
 
 import pandas as pd
 import plotly.graph_objects as go
+from core.layout import finalise_dashboard
 from core.plugin_base import TuflowPlugin
+from core.styles import COLOURS
 
 
 class EOFPlugin(TuflowPlugin):
@@ -150,7 +152,6 @@ class EOFPlugin(TuflowPlugin):
                 dict(
                     method="update",
                     label=node,
-
                     args=[
                         {
                             "x": [node_df["Surface Area (m2)"]],
@@ -161,9 +162,6 @@ class EOFPlugin(TuflowPlugin):
                                 "Elevation: %{y:.3f} m<br>"
                             ],
                         },
-                        {
-                            "title": f"<b>TUFLOW Storage Curve – {runname} – {node}</b>"
-                        }
                     ],
                 )
             )
@@ -186,7 +184,3 @@ class EOFPlugin(TuflowPlugin):
         fig,
         title=f"<b>TUFLOW Storage Curves – {runname}</b>",
     )
-
-
-
-
