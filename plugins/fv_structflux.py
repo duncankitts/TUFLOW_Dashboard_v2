@@ -11,12 +11,27 @@ from core.plugin_base import TuflowPlugin
 from core.styles import COLOURS
 
 
+VARIABLE_NAMES = { # There's more to be added here, particularly for organic water quality variables, but this is a start.
+    "FLOW": "Flow",
+    "SALT_FLUX": "Salt Flux",
+    "TEMP_FLUX": "Temperature Flux",
+    "SED_1_FLUX": "Sediment Flux",
+    "SED_1_BEDLOAD_FLUX": "Bedload Flux",
+    "WQ_DISS_OXYGEN_MG_L_FLUX": "Dissolved Oxygen",
+    "WQ_SILICATE_MG_L_FLUX": "Silicate",
+    "WQ_AMMONIUM_MG_L_FLUX": "Ammonium",
+    "WQ_NITRATE_MG_L_FLUX": "Nitrate",
+    "WQ_FRP_MG_L_FLUX": "FRP",
+    "WQ_PHYTO_DUMMY_CONC_MICG_L_FLUX": "Phytoplankton",
+    "WQ_PATH_ECOLI_ALIVE_CFU_100mL_FLUX": "E.coli Alive",
+    "WQ_PATH_ECOLI_DEAD_CFU_100mL_FLUX": "E.coli Dead",
+}
 
 class FVSTRUCTFlux_Plugin(TuflowPlugin):
 
     @property
     def name(self):
-        return "Struct Flux"
+        return "FV Structure Flux"
 
     @property
     def match_patterns(self):
@@ -29,7 +44,6 @@ class FVSTRUCTFlux_Plugin(TuflowPlugin):
     # ------------------------------------------------------------
 
     def parse(self, contents: bytes) -> pd.DataFrame:
-
         df = pd.read_csv(
             io.StringIO(contents.decode("utf-8")),
             engine="python"
@@ -95,16 +109,51 @@ class FVSTRUCTFlux_Plugin(TuflowPlugin):
         if clean.startswith("NS"):
             clean = clean[2:]
 
+        known_variables = [
+            "WQ_PATH_ECOLI_ALIVE_CFU_100mL_FLUX",
+            "WQ_PATH_ECOLI_DEAD_CFU_100mL_FLUX",
+            "WQ_PHYTO_DUMMY_CONC_MICG_L_FLUX",
+            "WQ_DISS_OXYGEN_MG_L_FLUX",
+            "WQ_SILICATE_MG_L_FLUX",
+            "WQ_AMMONIUM_MG_L_FLUX",
+            "WQ_NITRATE_MG_L_FLUX",
+            "WQ_FRP_MG_L_FLUX",
+            "SED_1_BEDLOAD_FLUX",
+            "SED_1_FLUX",
+            "TEMP_FLUX",
+            "SALT_FLUX",
+            "FLOW",
+        ]
+
         site = ""
         variable = clean
 
-        if "_" in clean:
-            parts = clean.rsplit("_", 1)
-            if len(parts) == 2 and parts[0] and parts[1]:
-                site = parts[0].replace("_", " ").strip()
-                variable = parts[1]
+        for v in sorted(
+            known_variables,
+            key=len,
+            reverse=True
+        ):
 
-        variable_display = variable.replace("_", " ").title()
+            suffix = "_" + v
+
+            if clean.endswith(suffix):
+                site = clean[:-len(suffix)]
+                variable = v
+                break
+            if clean == v:
+                variable = v
+                break
+
+        site = (
+            site
+            .replace("_", " ")
+            .strip()
+        )
+
+        variable_display = VARIABLE_NAMES.get(
+            variable,
+            variable.replace("_", " ").title()
+        )
 
         return {
             "site": site,
@@ -145,6 +194,7 @@ class FVSTRUCTFlux_Plugin(TuflowPlugin):
                 axis_title += (
                     f" ({self.format_units(info['units'])})"
                 )
+
             column_info.append(
                 {
                     "column": col,
@@ -179,6 +229,7 @@ class FVSTRUCTFlux_Plugin(TuflowPlugin):
                 "Value: %{y}<extra></extra>"
             )
         )
+
         fig.update_yaxes(
             title_text=f"<b>{first['axis_title']}</b>"
         )
@@ -202,6 +253,7 @@ class FVSTRUCTFlux_Plugin(TuflowPlugin):
                                 f"<b>{info['axis_title']}</b>"
                         }
                     ]
+
                 )
             )
 
@@ -216,8 +268,9 @@ class FVSTRUCTFlux_Plugin(TuflowPlugin):
                     yanchor="top"
                 )
             ],
+
             title=(
-                f"<b>TUFLOW FV Structure FLUX Outputs - "
+                f"<b>TUFLOW FV Structure Flux Outputs - "
                 f"{runname}</b>"
             ),
             xaxis_title="<b>Time</b>",
@@ -228,7 +281,7 @@ class FVSTRUCTFlux_Plugin(TuflowPlugin):
         return finalise_dashboard(
             fig,
             title=(
-                f"<b>TUFLOW FV Structure FLUX Outputs - "
+                f"<b>TUFLOW FV Structure Flux Outputs - "
                 f"{runname}</b>"
             )
         )
